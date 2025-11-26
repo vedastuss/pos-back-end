@@ -4,6 +4,7 @@ const connectDB = require("./config/database");
 const globalErrorHandler = require("./middleware/globalErrorHandler");
 const config = require("./config/config");
 const cookieParser = require("cookie-parser");
+const cors = require ("cors");
 
 const app = express();
 const PORT = config.port;
@@ -11,8 +12,11 @@ const PORT = config.port;
 // ⚠️ CRITICAL: Body parser middleware MUST come BEFORE routes
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 app.use(cookieParser());
+app.use(cors({
+    credentials: true,
+    origin: ["http://localhost:5173"]
+}))
 // Connect to MongoDB
 connectDB()
     .then(() => {

@@ -5,10 +5,10 @@ const jwt = require("jsonwebtoken");
 const config = require("../config/config");
 const register = async (req, res, next) => {
   try {
-    const { name, phone, email, password, role } = req.body;
+    const { name, email, password, role } = req.body;
 
     // Check if all fields are provided
-    if (!name || !phone || !email || !password || !role) {
+    if (!name || !email || !password || !role) {
       return next(createHttpError(400, "All fields are required!")); // Added return
     }
 
@@ -19,7 +19,7 @@ const register = async (req, res, next) => {
     }
 
     // Create new user
-    const newUser = new User({ name, phone, email, password, role });
+    const newUser = new User({ name, email, password, role });
     await newUser.save();
 
     res.status(201).json({
@@ -87,6 +87,15 @@ const getUserData = async (req, res, next) => {
     next(error);
   }
 }
+const logout = async (req, res, next) => {
+  try {
+    
+    res.clearCookie('accessToken');
+    res.status(200).json({success: true, message: "User logout successfully"});
+    
+  } catch (error) {
+    next(error);
+  }
+}
 
-
-module.exports = { register, login, getUserData };
+module.exports = { register, login, getUserData, logout };

@@ -16,10 +16,6 @@ const userSchema = new mongoose.Schema({
             message: "Email must be in valid format!"
         }
     },
-    phone: {
-        type: Number,
-        required: true,
-    },
     password: {
         type: String,
         required: true,
